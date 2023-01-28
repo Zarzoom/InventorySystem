@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    ports:
+        - "8080:8080"
+    depends_on:
+      - InventoryData
+  InventoryData:
+    image: "mysql"
+    command: --init-file /data/application/init.sql
+    volumes:
+        - ./CreateTable.sql:/data/application/init.sql
+    cap_add:
+        - SYS_NICE  # CAP_SYS_NICE
+    environment:
+        MYSQL_ROOT_USER: root
+        MYSQL_DATABASE: product_catalog
+        MYSQL_ROOT_PASSWORD: "Password123"
+        ACCEPT_EULA: "Y" 
+       
